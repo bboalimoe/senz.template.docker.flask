@@ -19,6 +19,7 @@ RUN mkdir /app/run
 RUN mkdir /app/flask_app
 #add the project to the /app/
 ADD flask_app/ /app/flask_app
+RUN pip install -r /app/flask_app/requirements.txt
 ADD gunicorn_conf.py /app/
 ADD gunicorn.supervisor.conf /etc/supervisor/conf.d/
 
