@@ -1,7 +1,7 @@
 import rollbar
 import os
 import rollbar.contrib.flask
-
+from flask import jsonify
 #####new relic demo
 ####
 #### Reference:
@@ -44,21 +44,31 @@ app = Flask(__name__)
 #     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 
+@app.route("/json/")
+def json_response():
+
+    return jsonify(success=True,args={"code":1,"status":"OK"})
+
 
 
 @app.route('/')
 def hello_world():
 
+    return 'Hello World!'
+
+
+
+@app.route("/roll_exception/")
+def rollbar_exception():
+
 #try:
     raise Exception("what is the fukc");
 #except:
     print "there is an exception!"
-
-    return 'Hello World!'
-
+    return "rollbar test"
 
 if __name__ == '__main__':
     #report one message
     #rollbar.report_message("get one message","error");
-
+    app.debug = True;
     app.run(port=9001)
