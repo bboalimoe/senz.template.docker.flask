@@ -35,8 +35,9 @@ class JsonAndOtherTest(TestCase):
         return FlaskApp
 
 
-    def test_json(self):
-        response = self.client.get("/json/")
+    def test_json_get(self):
+        response = self.client.get("/json_get/")
+        print response.json
         self.assertEqual(
             response.json,
             dict(
@@ -45,4 +46,15 @@ class JsonAndOtherTest(TestCase):
                 )
         )
 
+    def test_json_post(self):
+        params = {"a":"b"}
+        from flask import jsonify
+        from flask import json
+        json_str = json.dumps(params)
+        response = self.client.post("/json_post/",data = json_str)
+        self.assertEqual(response.json,dict(
+            post_params=params,
+            success=True
+        )
+        )
 

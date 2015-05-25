@@ -1,7 +1,10 @@
 import rollbar
 import os
 import rollbar.contrib.flask
-from flask import jsonify
+from flask import jsonify, json, request
+
+
+
 #####new relic demo
 ####
 #### Reference:
@@ -44,11 +47,16 @@ app = Flask(__name__)
 #     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 
-@app.route("/json/")
+@app.route("/json_get/")
 def json_response():
 
     return jsonify(success=True,args={"code":1,"status":"OK"})
 
+@app.route('/json_post/',methods=["POST"])
+def json_response_one():
+
+    params = json.loads(request.data)
+    return jsonify(post_params=params,success=True)
 
 
 @app.route('/')
